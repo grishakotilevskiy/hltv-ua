@@ -2,30 +2,127 @@
 {% block title %}HLTV UA — Головна{% endblock %}
 {% block content %}
 
+<!-- HERO -->
 <div class="hero">
-    <h1>🇺🇦 <span>HLTV UA</span></h1>
-    <p>Агрегатор матчів, новин та статистики українських CS2 команд і гравців</p>
-    <a href="/teams" class="btn btn--primary">Переглянути команди</a>
-    <a href="/matches" class="btn btn--outline">Матчі</a>
+    <div class="hero__tag">🇺🇦 Агрегатор CS2</div>
+    <h1 class="hero__title"><span>HLTV</span> UA</h1>
+    <p class="hero__sub">Матчі, новини та статистика українських CS2 команд і гравців в одному місці</p>
+    <div class="hero__actions">
+        <a href="/teams" class="btn btn--primary">Команди</a>
+        <a href="/matches" class="btn btn--outline">Матчі</a>
+    </div>
 </div>
 
+<!-- STATS BAR -->
 <div class="stats-bar">
     <div class="stat-card">
-        <div class="stat-card__num">{{ stats.teams }}</div>
-        <div class="stat-card__label">Команд</div>
+        <div class="stat-card__icon">🏆</div>
+        <div>
+            <div class="stat-card__num">{{ stats.teams }}</div>
+            <div class="stat-card__label">Команд</div>
+        </div>
     </div>
     <div class="stat-card">
-        <div class="stat-card__num">{{ stats.players }}</div>
-        <div class="stat-card__label">Гравців</div>
+        <div class="stat-card__icon">🎯</div>
+        <div>
+            <div class="stat-card__num">{{ stats.players }}</div>
+            <div class="stat-card__label">Гравців</div>
+        </div>
     </div>
     <div class="stat-card">
-        <div class="stat-card__num">{{ stats.matches }}</div>
-        <div class="stat-card__label">Матчів</div>
+        <div class="stat-card__icon">⚔️</div>
+        <div>
+            <div class="stat-card__num">{{ stats.matches }}</div>
+            <div class="stat-card__label">Матчів</div>
+        </div>
     </div>
     <div class="stat-card">
-        <div class="stat-card__num">{{ stats.news }}</div>
-        <div class="stat-card__label">Новин</div>
+        <div class="stat-card__icon">📰</div>
+        <div>
+            <div class="stat-card__num">{{ stats.news }}</div>
+            <div class="stat-card__label">Новин</div>
+        </div>
     </div>
+</div>
+
+<!-- HOME GRID: Матчі + Новини -->
+<div class="home-grid">
+
+    <!-- Останні матчі -->
+    <div>
+        <div class="section-header">
+            <div class="section-header__bar"></div>
+            <span class="section-header__title">Останні матчі</span>
+        </div>
+
+        {% if recent_matches %}
+        <div class="match-list">
+            {% for m in recent_matches %}
+            <div class="match-card">
+                <div class="match-card__badge-wrap">
+                    {% if m.status %}
+                        {% if m.status.name == 'live' %}
+                            <span class="badge badge--live">LIVE</span>
+                        {% elif m.status.name == 'upcoming' %}
+                            <span class="badge badge--upcoming">Скоро</span>
+                        {% else %}
+                            <span class="badge badge--finished">Фініш</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <div class="match-card__team">{{ m.team1.name if m.team1 else '—' }}</div>
+                <div class="match-card__score {% if m.status and m.status.name == 'live' %}match-card__score--live{% endif %}">
+                    {{ m.team1_score }} : {{ m.team2_score }}
+                </div>
+                <div class="match-card__team match-card__team--right">{{ m.team2.name if m.team2 else '—' }}</div>
+                <div class="match-card__meta">
+                    {{ m.fmt.name if m.fmt else '' }}<br>
+                    <span style="font-size:0.68rem;">{{ m.start_time.strftime('%d.%m %H:%M') if m.start_time else '—' }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top:12px;">
+            <a href="/matches" class="btn btn--outline" style="font-size:0.75rem;">Всі матчі →</a>
+        </div>
+        {% else %}
+        <div class="empty" style="padding:32px 0;">
+            <div class="empty__icon">⚔️</div>
+            <p>Матчів ще немає</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Новини -->
+    <div>
+        <div class="section-header">
+            <div class="section-header__bar"></div>
+            <span class="section-header__title">Новини</span>
+        </div>
+
+        {% if latest_news %}
+        <div class="news-list">
+            {% for article in latest_news %}
+            <div class="news-item">
+                <div class="news-item__title">{{ article.title }}</div>
+                <div class="news-item__date">{{ article.published_at.strftime('%d.%m.%Y %H:%M') if article.published_at else '—' }}</div>
+                {% if article.content %}
+                <div class="news-item__preview">{{ article.content }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div style="margin-top:12px;">
+            <a href="/news" class="btn btn--outline" style="font-size:0.75rem;">Всі новини →</a>
+        </div>
+        {% else %}
+        <div class="empty" style="padding:32px 0;">
+            <div class="empty__icon">📰</div>
+            <p>Новин ще немає</p>
+        </div>
+        {% endif %}
+    </div>
+
 </div>
 
 {% endblock %}

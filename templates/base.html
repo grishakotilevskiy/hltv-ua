@@ -4,27 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}HLTV UA{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
 
-    <!-- HEADER / NAVBAR -->
+    <!-- Ukrainian flag stripe -->
+    <div class="flag-stripe"></div>
+
+    <!-- NAVBAR -->
     <header class="navbar">
         <div class="navbar__container">
             <a href="/" class="navbar__logo">
-                🎮 <span>HLTV</span> UA
+                <span class="navbar__logo-accent">HLTV</span>&nbsp;UA
+                <span class="navbar__logo-tag">🇺🇦 CS2</span>
             </a>
             <nav class="navbar__menu">
-                <a href="/" class="navbar__link {% if active == 'home' %}navbar__link--active{% endif %}">Головна</a>
-                <a href="/teams" class="navbar__link {% if active == 'teams' %}navbar__link--active{% endif %}">Команди</a>
+                <a href="/"        class="navbar__link {% if active == 'home'    %}navbar__link--active{% endif %}">Головна</a>
+                <a href="/teams"   class="navbar__link {% if active == 'teams'   %}navbar__link--active{% endif %}">Команди</a>
                 <a href="/matches" class="navbar__link {% if active == 'matches' %}navbar__link--active{% endif %}">Матчі</a>
                 <a href="/players" class="navbar__link {% if active == 'players' %}navbar__link--active{% endif %}">Гравці</a>
-                <a href="/news" class="navbar__link {% if active == 'news' %}navbar__link--active{% endif %}">Новини</a>
+                <a href="/news"    class="navbar__link {% if active == 'news'    %}navbar__link--active{% endif %}">Новини</a>
             </nav>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main class="main">
         <div class="container">
             {% block content %}{% endblock %}

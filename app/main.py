@@ -34,9 +34,27 @@ def index(request: Request, db: Session = Depends(get_db)):
         "matches": db.query(models.Match).count(),
         "news":    db.query(models.News).count(),
     }
+    recent_matches = (
+        db.query(models.Match)
+        .order_by(models.Match.start_time.desc())
+        .limit(5)
+        .all()
+    )
+    latest_news = (
+        db.query(models.News)
+        .order_by(models.News.published_at.desc())
+        .limit(4)
+        .all()
+    )
     return templates.TemplateResponse(
         "index.html",
-        {"request": request, "active": "home", "stats": stats},
+        {
+            "request": request,
+            "active": "home",
+            "stats": stats,
+            "recent_matches": recent_matches,
+            "latest_news": latest_news,
+        },
     )
 
 

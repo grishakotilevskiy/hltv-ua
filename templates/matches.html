@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Матчі — HLTV UA{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1>🎮 Матчі</h1>
+    <p>Останні та майбутні матчі українських команд</p>
+</div>
+
+{% if matches %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Статус</th>
+                <th>Команда 1</th>
+                <th>Рахунок</th>
+                <th>Команда 2</th>
+                <th>Формат</th>
+                <th>Час початку</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in matches %}
+            <tr>
+                <td>
+                    {% if m.status %}
+                        {% if m.status.name == 'live' %}
+                            <span class="badge badge--live">LIVE</span>
+                        {% elif m.status.name == 'upcoming' %}
+                            <span class="badge badge--upcoming">Незабаром</span>
+                        {% else %}
+                            <span class="badge badge--finished">Завершено</span>
+                        {% endif %}
+                    {% else %}—{% endif %}
+                </td>
+                <td><strong>{{ m.team1.name if m.team1 else '—' }}</strong></td>
+                <td>{{ m.team1_score }} : {{ m.team2_score }}</td>
+                <td><strong>{{ m.team2.name if m.team2 else '—' }}</strong></td>
+                <td>{{ m.fmt.name if m.fmt else '—' }}</td>
+                <td>{{ m.start_time.strftime('%d.%m.%Y %H:%M') if m.start_time else '—' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty">
+    <div class="empty__icon">📅</div>
+    <p>Матчів ще немає. Дані оновлюються через парсер.</p>
+</div>
+{% endif %}
+
+{% endblock %}

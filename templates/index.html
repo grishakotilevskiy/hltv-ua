@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}HLTV UA — Головна{% endblock %}
+{% block content %}
+
+<div class="hero">
+    <h1>🇺🇦 <span>HLTV UA</span></h1>
+    <p>Агрегатор матчів, новин та статистики українських CS2 команд і гравців</p>
+    <a href="/teams" class="btn btn--primary">Переглянути команди</a>
+    <a href="/matches" class="btn btn--outline">Матчі</a>
+</div>
+
+<div class="stats-bar">
+    <div class="stat-card">
+        <div class="stat-card__num">{{ stats.teams }}</div>
+        <div class="stat-card__label">Команд</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__num">{{ stats.players }}</div>
+        <div class="stat-card__label">Гравців</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__num">{{ stats.matches }}</div>
+        <div class="stat-card__label">Матчів</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-card__num">{{ stats.news }}</div>
+        <div class="stat-card__label">Новин</div>
+    </div>
+</div>
+
+{% endblock %}

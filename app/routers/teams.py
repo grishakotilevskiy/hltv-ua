@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app import models
 
-router = APIRouter(prefix="/teams", tags=["Teams"])
+router = APIRouter(prefix="/api/teams", tags=["Teams"])
 
 
 @router.get("/")

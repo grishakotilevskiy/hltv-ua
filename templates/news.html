@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Новини — HLTV UA{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1>📰 Новини</h1>
+    <p>Останні новини про українські CS2 команди та гравців</p>
+</div>
+
+{% if news_list %}
+<div class="cards-grid">
+    {% for article in news_list %}
+    <div class="card">
+        <div class="card__title">{{ article.title }}</div>
+        <div class="card__meta">
+            {{ article.published_at.strftime('%d.%m.%Y %H:%M') if article.published_at else '—' }}
+        </div>
+        {% if article.content %}
+        <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+            {{ article.content[:200] }}{% if article.content|length > 200 %}…{% endif %}
+        </p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+    <div class="empty__icon">📰</div>
+    <p>Новин ще немає. Дані оновлюються через парсер.</p>
+</div>
+{% endif %}
+
+{% endblock %}

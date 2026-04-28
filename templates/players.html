@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Гравці — HLTV UA{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1>🎯 Гравці</h1>
+    <p>Українські CS2 гравці та їхня статистика</p>
+</div>
+
+{% if players %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Нікнейм</th>
+                <th>Повне ім'я</th>
+                <th>Команда</th>
+                <th>Рейтинг</th>
+                <th>K/D</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in players %}
+            <tr>
+                <td><span class="rank-badge">{{ loop.index }}</span></td>
+                <td><strong>{{ p.nickname }}</strong></td>
+                <td>{{ p.full_name if p.full_name else '—' }}</td>
+                <td>{{ p.team.name if p.team else '—' }}</td>
+                <td>{% if p.rating_3_0 %}{{ p.rating_3_0 }}{% else %}—{% endif %}</td>
+                <td>{% if p.kd_ratio %}{{ p.kd_ratio }}{% else %}—{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty">
+    <div class="empty__icon">🎯</div>
+    <p>Гравців ще не додано. Дані оновлюються через парсер.</p>
+</div>
+{% endif %}
+
+{% endblock %}

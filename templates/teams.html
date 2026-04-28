@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Команди — HLTV UA{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1>🇺🇦 Українські команди</h1>
+    <p>Всі українські CS2 команди, що відстежуються на HLTV</p>
+</div>
+
+{% if teams %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Назва</th>
+                <th>Світовий рейтинг</th>
+                <th>Відсоток перемог</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in teams %}
+            <tr>
+                <td><span class="rank-badge">{{ loop.index }}</span></td>
+                <td><strong>{{ team.name }}</strong></td>
+                <td>{% if team.world_rank %}#{{ team.world_rank }}{% else %}—{% endif %}</td>
+                <td>{% if team.win_rate %}{{ team.win_rate }}%{% else %}—{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="empty">
+    <div class="empty__icon">🔍</div>
+    <p>Команди ще не додані. Дані оновлюються через парсер.</p>
+</div>
+{% endif %}
+
+{% endblock %}

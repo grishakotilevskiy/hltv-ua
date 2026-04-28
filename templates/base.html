@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HLTV UA{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- HEADER / NAVBAR -->
+    <header class="navbar">
+        <div class="navbar__container">
+            <a href="/" class="navbar__logo">
+                🎮 <span>HLTV</span> UA
+            </a>
+            <nav class="navbar__menu">
+                <a href="/" class="navbar__link {% if active == 'home' %}navbar__link--active{% endif %}">Головна</a>
+                <a href="/teams" class="navbar__link {% if active == 'teams' %}navbar__link--active{% endif %}">Команди</a>
+                <a href="/matches" class="navbar__link {% if active == 'matches' %}navbar__link--active{% endif %}">Матчі</a>
+                <a href="/players" class="navbar__link {% if active == 'players' %}navbar__link--active{% endif %}">Гравці</a>
+                <a href="/news" class="navbar__link {% if active == 'news' %}navbar__link--active{% endif %}">Новини</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 HLTV UA — Агрегатор українського CS2 контенту</p>
+            <p>Дані надані <a href="https://hltv.org" target="_blank">HLTV.org</a></p>
+        </div>
+    </footer>
+
+</body>
+</html>

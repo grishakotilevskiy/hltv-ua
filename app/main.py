@@ -3,9 +3,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from app.database import get_db
+from app.database import get_db, engine
 from app import models
 from app.routers import teams, matches, players, news
+
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

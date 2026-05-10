@@ -125,4 +125,46 @@
 
 </div>
 
+<div class="section-header" style="margin: 40px 0 16px;">
+    <div class="section-header__bar"></div>
+    <span class="section-header__title">Матчі за статусом</span>
+</div>
+<div style="background: var(--card); border-radius: 12px; padding: 24px; max-width: 400px;">
+    <canvas id="matchStatusChart"></canvas>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    new Chart(document.getElementById('matchStatusChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Заплановано', 'LIVE', 'Завершено'],
+            datasets: [{
+                data: [
+                    {{ match_by_status.upcoming }},
+                    {{ match_by_status.live }},
+                    {{ match_by_status.finished }}
+                ],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(239, 68, 68, 0.8)',
+                    'rgba(34, 197, 94, 0.8)'
+                ],
+                borderColor: ['#3b82f6', '#ef4444', '#22c55e'],
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { color: '#94a3b8', padding: 16 }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

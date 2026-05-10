@@ -8,6 +8,15 @@
 </div>
 
 {% if players %}
+
+<div class="section-header" style="margin-bottom: 16px;">
+    <div class="section-header__bar"></div>
+    <span class="section-header__title">Рейтинг гравців (Top 10)</span>
+</div>
+<div style="background: var(--card); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <canvas id="playersChart" height="80"></canvas>
+</div>
+
 <div class="table-wrapper">
     <table>
         <thead>
@@ -41,4 +50,51 @@
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+{% if players %}
+<script>
+    const labels = [{% for p in players[:10] %}"{{ p.nickname }}"{% if not loop.last %},{% endif %}{% endfor %}];
+    const ratings = [{% for p in players[:10] %}{{ p.rating_3_0 if p.rating_3_0 else 0 }}{% if not loop.last %},{% endif %}{% endfor %}];
+
+    new Chart(document.getElementById('playersChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Рейтинг 3.0',
+                data: ratings,
+                backgroundColor: 'rgba(59, 130, 246, 0.75)',
+                borderColor: 'rgba(59, 130, 246, 1)',
+                borderWidth: 1,
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => 'Рейтинг: ' + ctx.parsed.y
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    min: 0.7,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#94a3b8' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8' }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
 {% endblock %}

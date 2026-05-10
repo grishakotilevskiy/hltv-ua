@@ -28,12 +28,22 @@ def index(request: Request, db: Session = Depends(get_db)):
     }
     recent_matches = db.query(models.Match).order_by(models.Match.start_time.desc()).limit(5).all()
     latest_news = db.query(models.News).order_by(models.News.published_at.desc()).limit(4).all()
+
+    all_matches = db.query(models.Match).all()
+    match_by_status = {"upcoming": 0, "live": 0, "finished": 0}
+    for m in all_matches:
+        if m.status:
+            s = m.status.name
+            if s in match_by_status:
+                match_by_status[s] += 1
+
     return templates.TemplateResponse("index.html", {
         "request": request,
         "active": "home",
         "stats": stats,
         "recent_matches": recent_matches,
         "latest_news": latest_news,
+        "match_by_status": match_by_status,
     })
 
 

@@ -8,6 +8,15 @@
 </div>
 
 {% if teams %}
+
+<div class="section-header" style="margin-bottom: 16px;">
+    <div class="section-header__bar"></div>
+    <span class="section-header__title">Відсоток перемог команд</span>
+</div>
+<div style="background: var(--card); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+    <canvas id="teamsChart" height="80"></canvas>
+</div>
+
 <div class="table-wrapper">
     <table>
         <thead>
@@ -37,4 +46,51 @@
 </div>
 {% endif %}
 
+{% endblock %}
+
+{% block scripts %}
+{% if teams %}
+<script>
+    const teamNames = [{% for t in teams[:10] %}"{{ t.name }}"{% if not loop.last %},{% endif %}{% endfor %}];
+    const winRates = [{% for t in teams[:10] %}{{ t.win_rate if t.win_rate else 0 }}{% if not loop.last %},{% endif %}{% endfor %}];
+
+    new Chart(document.getElementById('teamsChart'), {
+        type: 'bar',
+        data: {
+            labels: teamNames,
+            datasets: [{
+                label: 'Win Rate %',
+                data: winRates,
+                backgroundColor: 'rgba(250, 204, 21, 0.75)',
+                borderColor: 'rgba(250, 204, 21, 1)',
+                borderWidth: 1,
+                borderRadius: 6,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => 'Win rate: ' + ctx.parsed.y + '%'
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#94a3b8', callback: v => v + '%' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8' }
+                }
+            }
+        }
+    });
+</script>
+{% endif %}
 {% endblock %}
